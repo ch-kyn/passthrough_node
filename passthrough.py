@@ -9,10 +9,17 @@ MAIN_NODE_URL = "https://cloud-lab5.onrender.com"
 def passthrough_node_get(full_path: str):
     get_url = f"{MAIN_NODE_URL}/{full_path}"
     try:
-        response = requests.get(get_url)
-        return response.json()
+        if full_path not in cache:
+            response = requests.get(get_url)
+            cache = {}
+
+            # add cache here I guess
+            cache[full_path] = response.json()
+            return response.json()
+        else:
+            return cache[full_path]
+        
     except requests.exceptions.RequestException as e:
         return {"error": "Failed to fetch data", "details": str(e)}
-    
-    # add cache here
+        
     
