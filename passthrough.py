@@ -8,10 +8,11 @@ MAIN_NODE_URL = "https://cloud-lab5.onrender.com"
 @app.get("/{full_path:path}")
 def passthrough_node_get(full_path: str):
     get_url = f"{MAIN_NODE_URL}/{full_path}"
+    cache = {}
+
     try:
         if full_path not in cache:
             response = requests.get(get_url)
-            cache = {}
 
             # add cache here I guess
             cache[full_path] = response.json()
